@@ -107,7 +107,7 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
 
   return (
     <div className="advance-pay-module space-y-6">
-      <div className="sub-tabs flex gap-2 border-b border-gray-800 pb-3">
+      <div className="sub-tabs flex gap-2 border-b border-slate-200 pb-3">
         <button
           className={`tab-btn ${activeTab === "tt" ? "active" : ""}`}
           onClick={() => setActiveTab("tt")}
@@ -123,7 +123,7 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
       </div>
 
       {activeTab === "tt" ? (
-        <div className="panel flex flex-col gap-4">
+        <div className="panel p-6 flex flex-col gap-4">
           <div className="panel-head flex justify-between items-center">
             <div>
               <span>TELEGRAPHIC TRANSFER & REMITTANCE DESK</span>
@@ -152,19 +152,19 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
               <tbody>
                 {payments.map((p) => (
                   <tr key={p.id}>
-                    <td className="font-mono text-cyan-400">{p.refNo}</td>
+                    <td className="font-mono text-sky-700 font-bold">{p.refNo}</td>
                     <td>
-                      <strong>{p.supplier}</strong>
+                      <strong className="text-slate-900">{p.supplier}</strong>
                     </td>
                     <td className="font-mono">{p.piNumber}</td>
                     <td>
-                      <div>{p.beneficiaryBank}</div>
-                      <small className="text-gray-400 font-mono">{p.swiftCode}</small>
+                      <div className="text-slate-900 font-medium">{p.beneficiaryBank}</div>
+                      <small className="text-slate-500 font-mono">{p.swiftCode}</small>
                     </td>
                     <td>
                       <span className="badge info">{p.paymentPercent}% Advance</span>
                     </td>
-                    <td className="font-bold">${p.remittanceAmountUsd.toLocaleString()}</td>
+                    <td className="font-bold text-slate-900">${p.remittanceAmountUsd.toLocaleString()}</td>
                     <td className="font-mono">৳{p.totalBdtDebited.toLocaleString()}</td>
                     <td>
                       <span
@@ -177,7 +177,7 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
                     </td>
                     <td>
                       <button
-                        className="btn-sm"
+                        className="btn-sm secondary"
                         onClick={() => notify(`SWIFT MT103 advice downloaded for ${p.refNo}`)}
                       >
                         📄 SWIFT MT103
@@ -190,7 +190,7 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
           </div>
         </div>
       ) : (
-        <div className="panel flex flex-col gap-4">
+        <div className="panel p-6 flex flex-col gap-4">
           <div className="panel-head flex justify-between items-center">
             <div>
               <span>LIEN BANK FACILITIES & CREDIT DESK</span>
@@ -205,13 +205,13 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
             {facilities.map((f) => {
               const utilPercent = Math.round((f.utilizedLimitUsd / f.sanctionedLimitUsd) * 100);
               return (
-                <div key={f.id} className="card-box panel p-4 border border-gray-800 rounded-lg">
-                  <div className="flex justify-between items-start mb-2">
+                <div key={f.id} className="card-box panel p-5 border border-slate-200 rounded-xl bg-gradient-to-br from-white via-sky-50/20 to-white shadow-sm">
+                  <div className="flex justify-between items-start mb-3">
                     <div>
-                      <span className="text-xs text-amber-400 uppercase tracking-wide font-semibold">
+                      <span className="text-xs text-sky-700 uppercase tracking-wide font-bold">
                         {f.facilityType}
                       </span>
-                      <h4 className="font-bold text-lg text-gray-100">{f.bankName}</h4>
+                      <h4 className="font-bold text-lg text-slate-900 mt-0.5">{f.bankName}</h4>
                     </div>
                     <span
                       className={`badge ${
@@ -226,31 +226,31 @@ export default function AdvancePayView({ notify, setModal }: AdvancePayViewProps
                     </span>
                   </div>
 
-                  <div className="my-3 space-y-1">
+                  <div className="my-4 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Sanctioned Limit:</span>
-                      <strong className="text-gray-200">${f.sanctionedLimitUsd.toLocaleString()}</strong>
+                      <span className="text-slate-500 font-medium">Sanctioned Limit:</span>
+                      <strong className="text-slate-900">${f.sanctionedLimitUsd.toLocaleString()}</strong>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Utilized Balance:</span>
-                      <span className="text-red-400 font-mono">${f.utilizedLimitUsd.toLocaleString()} ({utilPercent}%)</span>
+                      <span className="text-slate-500 font-medium">Utilized Balance:</span>
+                      <span className="text-rose-600 font-mono font-bold">${f.utilizedLimitUsd.toLocaleString()} ({utilPercent}%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Available Headroom:</span>
-                      <span className="text-emerald-400 font-mono">${f.availableLimitUsd.toLocaleString()}</span>
+                      <span className="text-slate-500 font-medium">Available Headroom:</span>
+                      <span className="text-emerald-700 font-mono font-bold">${f.availableLimitUsd.toLocaleString()}</span>
                     </div>
                   </div>
 
-                  <div className="w-full bg-gray-800 h-2 rounded-full overflow-hidden my-2">
+                  <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden my-3">
                     <div
                       className={`h-full ${
-                        utilPercent > 85 ? "bg-red-500" : utilPercent > 70 ? "bg-amber-500" : "bg-emerald-500"
+                        utilPercent > 85 ? "bg-rose-500" : utilPercent > 70 ? "bg-amber-500" : "bg-teal-600"
                       }`}
                       style={{ width: `${utilPercent}%` }}
                     ></div>
                   </div>
 
-                  <div className="flex justify-between text-xs text-gray-400 mt-3 pt-2 border-t border-gray-800">
+                  <div className="flex justify-between text-xs text-slate-500 mt-3 pt-3 border-t border-slate-100 font-medium">
                     <span>Margin: {f.marginPercent}%</span>
                     <span>Facility Expiry: {f.expiryDate}</span>
                   </div>

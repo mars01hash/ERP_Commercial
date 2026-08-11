@@ -73,24 +73,24 @@ export default function ExpensesClaimsView({ notify, setModal }: ExpensesClaimsV
   return (
     <div className="expenses-claims-module space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="panel p-4 flex flex-col justify-between">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Total Commercial Outflow</span>
-          <h3 className="text-2xl font-bold text-cyan-400 mt-1">${totalUsd.toLocaleString()} USD</h3>
-          <p className="text-xs text-gray-400 mt-1">Ocean freight & international claims</p>
+        <div className="panel p-5 bg-gradient-to-br from-white via-sky-50/50 to-white border border-sky-100 flex flex-col justify-between shadow-sm">
+          <span className="text-xs text-sky-700 font-bold uppercase tracking-wider">Total Commercial Outflow</span>
+          <h3 className="text-2xl font-extrabold text-sky-900 mt-2">${totalUsd.toLocaleString()} USD</h3>
+          <p className="text-xs text-slate-500 mt-1 font-medium">Ocean freight & international claims</p>
         </div>
-        <div className="panel p-4 flex flex-col justify-between">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Total Local Expenses</span>
-          <h3 className="text-2xl font-bold text-amber-400 mt-1">৳{totalBdt.toLocaleString()} BDT</h3>
-          <p className="text-xs text-gray-400 mt-1">C&F, Port charges & demurrage</p>
+        <div className="panel p-5 bg-gradient-to-br from-white via-amber-50/40 to-white border border-amber-100 flex flex-col justify-between shadow-sm">
+          <span className="text-xs text-amber-700 font-bold uppercase tracking-wider">Total Local Expenses</span>
+          <h3 className="text-2xl font-extrabold text-amber-900 mt-2">৳{totalBdt.toLocaleString()} BDT</h3>
+          <p className="text-xs text-slate-500 mt-1 font-medium">C&F, Port charges & demurrage</p>
         </div>
-        <div className="panel p-4 flex flex-col justify-between">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Active Dispute Claims</span>
-          <h3 className="text-2xl font-bold text-red-400 mt-1">1 Open Claim</h3>
-          <p className="text-xs text-gray-400 mt-1">$1,450 USD short-payment claim under negotiation</p>
+        <div className="panel p-5 bg-gradient-to-br from-white via-rose-50/40 to-white border border-rose-100 flex flex-col justify-between shadow-sm">
+          <span className="text-xs text-rose-700 font-bold uppercase tracking-wider">Active Dispute Claims</span>
+          <h3 className="text-2xl font-extrabold text-rose-900 mt-2">1 Open Claim</h3>
+          <p className="text-xs text-slate-500 mt-1 font-medium">$1,450 USD short-payment claim under negotiation</p>
         </div>
       </div>
 
-      <div className="panel flex flex-col gap-4">
+      <div className="panel p-6 flex flex-col gap-4">
         <div className="panel-head flex justify-between items-center">
           <div>
             <span>COMMERCIAL EXPENSES & DISPUTE DESK</span>
@@ -98,7 +98,7 @@ export default function ExpensesClaimsView({ notify, setModal }: ExpensesClaimsV
           </div>
           <div className="flex gap-2">
             <select
-              className="bg-gray-900 border border-gray-700 text-sm rounded px-3 py-1 text-gray-200"
+              className="bg-white border border-slate-300 text-xs rounded-lg px-3 py-1.5 text-slate-700 font-medium"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -133,15 +133,15 @@ export default function ExpensesClaimsView({ notify, setModal }: ExpensesClaimsV
             <tbody>
               {filtered.map((item) => (
                 <tr key={item.id}>
-                  <td className="font-mono text-cyan-400">{item.voucherNo}</td>
+                  <td className="font-mono text-sky-700 font-bold">{item.voucherNo}</td>
                   <td>
                     <span className="badge info">{item.expenseCategory}</span>
                   </td>
                   <td>
-                    <strong>{item.vendorParty}</strong>
+                    <strong className="text-slate-900">{item.vendorParty}</strong>
                   </td>
                   <td className="font-mono text-xs">{item.linkedRefNo}</td>
-                  <td className="font-bold">
+                  <td className="font-bold text-slate-900">
                     {item.amountUsd > 0 ? `$${item.amountUsd.toLocaleString()}` : "—"}
                   </td>
                   <td className="font-mono">৳{item.amountBdt.toLocaleString()}</td>
@@ -170,7 +170,7 @@ export default function ExpensesClaimsView({ notify, setModal }: ExpensesClaimsV
                   <td className="font-mono">{item.dueDate}</td>
                   <td>
                     <button
-                      className="btn-sm"
+                      className="btn-sm secondary"
                       onClick={() => notify(`Voucher details loaded for ${item.voucherNo}`)}
                     >
                       📄 Voucher

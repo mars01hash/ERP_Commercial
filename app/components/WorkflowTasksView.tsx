@@ -65,7 +65,7 @@ export default function WorkflowTasksView({ notify, setModal }: WorkflowTasksVie
 
   return (
     <div className="workflow-tasks-module space-y-6">
-      <div className="panel flex flex-col gap-4">
+      <div className="panel p-6 flex flex-col gap-4">
         <div className="panel-head flex justify-between items-center">
           <div>
             <span>WORKFLOW COMMAND CENTER & AUDIT LOGS</span>
@@ -73,7 +73,7 @@ export default function WorkflowTasksView({ notify, setModal }: WorkflowTasksVie
           </div>
           <div className="flex gap-2">
             <select
-              className="bg-gray-900 border border-gray-700 text-sm rounded px-3 py-1 text-gray-200"
+              className="bg-white border border-slate-300 text-xs rounded-lg px-3 py-1.5 text-slate-700 font-medium"
               value={filterSeverity}
               onChange={(e) => setFilterSeverity(e.target.value)}
             >
@@ -90,10 +90,10 @@ export default function WorkflowTasksView({ notify, setModal }: WorkflowTasksVie
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((t) => (
-            <div key={t.id} className="panel p-4 border border-gray-800 rounded-lg flex flex-col justify-between">
+            <div key={t.id} className="panel p-5 border border-slate-200 rounded-xl bg-gradient-to-br from-white via-slate-50/50 to-white shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-mono text-xs text-cyan-400">{t.id}</span>
+                  <span className="font-mono text-xs text-sky-700 font-bold">{t.id}</span>
                   <span
                     className={`badge ${
                       t.severity === "Critical"
@@ -106,19 +106,19 @@ export default function WorkflowTasksView({ notify, setModal }: WorkflowTasksVie
                     {t.severity} Severity
                   </span>
                 </div>
-                <h4 className="font-bold text-gray-100 text-base mb-1">{t.taskTitle}</h4>
-                <p className="text-xs text-gray-400 font-mono mb-3">Linked: {t.linkedEntityRef}</p>
+                <h4 className="font-bold text-slate-900 text-base mb-1">{t.taskTitle}</h4>
+                <p className="text-xs text-slate-500 font-mono mb-3">Linked: {t.linkedEntityRef}</p>
 
-                <div className="bg-gray-900 p-3 rounded text-xs text-gray-300 mb-3 border border-gray-800">
-                  <strong className="text-gray-400 block mb-1">AUDIT LOG & NOTES:</strong>
+                <div className="bg-slate-100/70 p-3 rounded-lg text-xs text-slate-700 mb-3 border border-slate-200">
+                  <strong className="text-slate-500 block mb-1 uppercase text-[10px] tracking-wider">AUDIT LOG & NOTES:</strong>
                   {t.auditLogNotes}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-gray-800 flex justify-between items-center text-xs">
+              <div className="pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
                 <div>
-                  <span className="text-gray-400 block">Assigned: {t.assignedOfficer}</span>
-                  <span className="text-amber-400 font-mono">SLA: {t.slaDeadline}</span>
+                  <span className="text-slate-500 block font-medium">Assigned: {t.assignedOfficer}</span>
+                  <span className="text-amber-700 font-mono font-bold">SLA: {t.slaDeadline}</span>
                 </div>
                 <button
                   className="btn-sm primary"

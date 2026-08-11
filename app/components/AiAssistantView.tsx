@@ -7,157 +7,183 @@ interface AiAssistantViewProps {
   notify: (msg: string) => void;
 }
 
-const sampleAnalyses: AiAnalysisItem[] = [
+const initialAnalyses: AiAnalysisItem[] = [
   {
-    id: "AI-2026-0091",
-    targetDocument: "Master LC # 0286IMPE260045 (HSBC Hong Kong)",
-    docType: "Master LC",
-    aiConfidenceScore: 98.4,
-    detectedMismatchesCount: 2,
-    riskSummary: "Presentation period (14 days) is tighter than shipment deadline buffer (21 days). Partial shipment clause requires strict container-wise packing match.",
-    aiRecommendations: [
-      "Request buyer amendment to extend document presentation period from 14 days to 21 days.",
-      "Ensure Commercial Invoice port description matches SWIFT Field 44E exactly ('CHATTOGRAM CY' instead of 'CHITTAGONG PORT').",
-    ],
-    analyzedTimestamp: "2026-08-11 23:45",
+    id: "AI-2026-001",
+    documentType: "Master Export LC Scan (UCP 600)",
+    documentRef: "LC No. 0286IMPE260045 (H&M)",
+    scanDate: "2026-08-11",
+    discrepancyCount: 2,
+    confidenceScore: 98.4,
+    summaryFindings: "Soft clause detected in Clause 47A requiring Certificate of Inspection signed by buyer's designated surveyor.",
+    suggestedAction: "Request H&M Merchandising amendment to delete clause or issue advance authorization letter prior to shipment.",
   },
   {
-    id: "AI-2026-0088",
-    targetDocument: "Supplier Proforma Invoice PI-HTX-2026-881 (Shaoxing Huatex)",
-    docType: "Proforma Invoice",
-    aiConfidenceScore: 96.2,
-    detectedMismatchesCount: 1,
-    riskSummary: "Fabric GSM (180 GSM) has a +3% variance against Merchandising handover specification (175 GSM). BGMEA UD entitlement ratio remains valid.",
-    aiRecommendations: [
-      "Confirm fabric weight tolerance with Merchandising lead before opening B2B LC.",
-      "Ensure HS Code 6006.22 (Dyed Cotton Knit Fabric) is declared on Bill of Entry.",
-    ],
-    analyzedTimestamp: "2026-08-10 14:20",
+    id: "AI-2026-002",
+    documentType: "Export Document Set vs Proforma Invoice",
+    documentRef: "DOC-2026-0132 (NEXT Retail)",
+    scanDate: "2026-08-10",
+    discrepancyCount: 1,
+    confidenceScore: 99.1,
+    summaryFindings: "Port of Loading spelling typo: 'Chittagong, Bangladesh' on Bill of Lading vs 'Chattogram' on EXP Form.",
+    suggestedAction: "Instruct Freight Forwarder to issue BL Addendum #1 correcting spelling to match EXP Form exactly.",
+  },
+  {
+    id: "AI-2026-003",
+    documentType: "BGMEA UD Wastage Entitlement Check",
+    documentRef: "UD-2026-88192 (Knitwear Entitlement)",
+    scanDate: "2026-08-08",
+    discrepancyCount: 0,
+    confidenceScore: 100.0,
+    summaryFindings: "Entitlement balance fully compliant. Fabric consumption 0.185 kg/dz within BGMEA 5% tolerance limit.",
+    suggestedAction: "Proceed with Back-to-Back LC opening for $410,000 USD without custom bond amendment.",
   },
 ];
 
 export default function AiAssistantView({ notify }: AiAssistantViewProps) {
-  const [analyses] = useState<AiAnalysisItem[]>(sampleAnalyses);
-  const [draftingPrompt, setDraftingPrompt] = useState("Request LC expiry amendment from H&M buyer");
-  const [draftResult, setDraftResult] = useState("");
+  const [analyses] = useState<AiAnalysisItem[]>(initialAnalyses);
+  const [prompt, setPrompt] = useState<string>("");
+  const [draftResult, setDraftResult] = useState<string>("");
 
-  const generateEmailDraft = () => {
-    setDraftResult(
-      `SUBJECT: Urgent Amendment Request - Master LC 0286IMPE260045 / PO 7844501\n\nDear H&M Commercial Team,\n\nWe kindly request an amendment for Master LC 0286IMPE260045 regarding PO 7844501 (Mens Core Crew Neck Tee):\n\n1. Latest Shipment Date: Extend to October 31, 2026\n2. Presentation Period: Extend to 21 days after shipment date\n\nThis will ensure full compliance with bank presentation guidelines. Please confirm SWIFT issuance at your earliest convenience.\n\nBest regards,\nMahin Rahman\nHead of Commercial, Northern Basics Ltd.`
-    );
-    notify("AI email draft generated successfully.");
+  const handleDraftEmail = (type: string) => {
+    if (type === "amendment") {
+      setDraftResult(
+        `SUBJECT: Urgent Request for LC Amendment - LC No. 0286IMPE260045 (H&M)\n\n` +
+        `Dear H&M Commercial Team,\n\n` +
+        `Thank you for issuing Master LC 0286IMPE260045. Upon AI discrepancy review under UCP 600 guidelines, we noted a soft clause in Field 47A requiring an inspection certificate signed by buyer's local representative.\n\n` +
+        `To avoid document negotiation hold at Standard Chartered Bank Dhaka, kindly issue SC Amendment #1 removing this clause or authorizing local release by August 14, 2026.\n\n` +
+        `Best regards,\nMahin Rahman (Head of Commercial)`
+      );
+    } else {
+      setDraftResult(
+        `SUBJECT: Forwarder Booking Instruction & Container Cut-Off Confirmation\n\n` +
+        `Dear Kuehne+Nagel Logistics Team,\n\n` +
+        `Please find attached export booking documentation for PO 7844501 (1×40HC container). Cargo ex-factory date is fixed for August 15, 2026.\n\n` +
+        `Kindly issue Shipping Order (SO) and confirm Chattogram Port Cut-Off date.\n\n` +
+        `Best regards,\nMahin Rahman`
+      );
+    }
   };
 
   return (
     <div className="ai-assistant-module space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="panel p-4 flex flex-col justify-between border-l-4 border-cyan-500">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Document Intelligence Engine</span>
-          <h3 className="text-xl font-bold text-gray-100 mt-1">98.4% Optical Scan Precision</h3>
-          <p className="text-xs text-gray-400 mt-1">Automated SWIFT, LC, PI & BL discrepancy extraction</p>
+      {/* Top AI Feature Header */}
+      <div className="panel p-6 bg-gradient-to-r from-sky-50 via-teal-50 to-blue-50 border border-sky-100 flex justify-between items-center shadow-sm">
+        <div>
+          <span className="text-xs text-sky-700 font-mono tracking-widest uppercase font-bold">
+            ⚡ THREADLINE AI DOCUMENT INTELLIGENCE & PREDICTIVE ANALYTICS
+          </span>
+          <h2 className="text-2xl font-extrabold text-slate-900 mt-1">UCP 600 Discrepancy Engine & Auto Email Drafter</h2>
+          <p className="text-xs text-slate-600 mt-1 font-medium">Scans LC text, PI terms, and Bill of Lading sets to prevent bank rejections and carrier delays.</p>
         </div>
-        <div className="panel p-4 flex flex-col justify-between border-l-4 border-amber-500">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Predictive Delay AI</span>
-          <h3 className="text-xl font-bold text-amber-400 mt-1">Low Demurrage Risk</h3>
-          <p className="text-xs text-gray-400 mt-1">Predicted customs clearance lead time: 2.4 days</p>
+        <button
+          className="primary"
+          onClick={() => notify("AI Document scanner initialized. Upload document PDF/Image.")}
+        >
+          🔍 Scan New LC / PI File
+        </button>
+      </div>
+
+      {/* Discrepancy Analyses Grid */}
+      <div className="panel p-6 flex flex-col gap-4">
+        <div className="panel-head flex justify-between items-center">
+          <div>
+            <span>AUTOMATED LC & PI DISCREPANCY AUDITS</span>
+            <h3>Recent Document AI Scans & Soft Clause Alerts</h3>
+          </div>
         </div>
-        <div className="panel p-4 flex flex-col justify-between border-l-4 border-emerald-500">
-          <span className="text-xs text-gray-400 font-semibold uppercase">Lien Bank Optimization</span>
-          <h3 className="text-xl font-bold text-emerald-400 mt-1">Standard Chartered Recommended</h3>
-          <p className="text-xs text-gray-400 mt-1">Lowest negotiation commission rate (0.125%)</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {analyses.map((a) => (
+            <div key={a.id} className="panel p-5 border border-slate-200 rounded-xl bg-gradient-to-br from-white via-sky-50/20 to-white shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs text-sky-700 font-bold uppercase tracking-wide">{a.documentType}</span>
+                  <span className="badge info">{a.confidenceScore}% Confidence</span>
+                </div>
+                <h4 className="font-bold text-slate-900 text-sm mb-1">{a.documentRef}</h4>
+                <p className="text-[11px] text-slate-500 font-mono mb-3">Scanned on: {a.scanDate}</p>
+
+                <div className="bg-slate-50 p-3 rounded-lg text-xs text-slate-700 mb-3 border border-slate-200 leading-relaxed">
+                  <strong className="text-slate-900 block mb-1">FINDINGS:</strong>
+                  {a.summaryFindings}
+                </div>
+
+                <div className="bg-sky-50 p-3 rounded-lg text-xs text-sky-900 border border-sky-100 leading-relaxed">
+                  <strong className="text-sky-800 block mb-1">RECOMMENDED ACTION:</strong>
+                  {a.suggestedAction}
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                <span className="text-slate-500 font-medium">Discrepancies: {a.discrepancyCount}</span>
+                <button
+                  className="btn-sm secondary"
+                  onClick={() => {
+                    handleDraftEmail("amendment");
+                    notify("Drafted amendment email with AI assistant.");
+                  }}
+                >
+                  ✉️ Draft Email
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Panel 1: Document Intelligence Analyses */}
-        <div className="panel flex flex-col gap-4">
-          <div className="panel-head flex justify-between items-center">
-            <div>
-              <span>AI DOCUMENT INTELLIGENCE & DISCREPANCY AUDIT</span>
-              <h3>Automated LC Clause & PI Mismatch Checker</h3>
-            </div>
+      {/* AI Automated Email Drafter */}
+      <div className="panel p-6 flex flex-col gap-4">
+        <div className="panel-head flex justify-between items-center">
+          <div>
+            <span>AUTOMATED COMMERCIAL CORRESPONDENCE DRAFTER</span>
+            <h3>AI Letter & Email Generator for Buyers & Banks</h3>
           </div>
-
-          <div className="space-y-4">
-            {analyses.map((item) => (
-              <div key={item.id} className="bg-gray-900 p-4 rounded-lg border border-gray-800 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="badge info">{item.docType} Scan</span>
-                  <span className="text-xs font-mono text-cyan-400">
-                    Confidence: {item.aiConfidenceScore}%
-                  </span>
-                </div>
-                <h4 className="font-bold text-gray-200">{item.targetDocument}</h4>
-                <p className="text-xs text-amber-300 bg-amber-950/40 p-2 rounded border border-amber-800/50">
-                  ⚠️ {item.riskSummary}
-                </p>
-                <div className="space-y-1 pt-2">
-                  <span className="text-xs text-gray-400 font-semibold block">AI RECOMMENDATIONS:</span>
-                  {item.aiRecommendations.map((rec, i) => (
-                    <div key={i} className="text-xs text-gray-300 flex items-start gap-2">
-                      <span className="text-emerald-400">✓</span>
-                      <span>{rec}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="flex gap-2">
+            <button className="secondary" onClick={() => handleDraftEmail("amendment")}>
+              Draft LC Amendment Request
+            </button>
+            <button className="secondary" onClick={() => handleDraftEmail("booking")}>
+              Draft Booking Request
+            </button>
           </div>
         </div>
 
-        {/* Panel 2: Decision Assistance & Email Drafter */}
-        <div className="panel flex flex-col gap-4">
-          <div className="panel-head">
-            <div>
-              <span>AI DECISION ASSISTANCE & CORRESPONDENCE GENERATOR</span>
-              <h3>Automated Buyer, Bank & Supplier Email Drafter</h3>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <label className="text-xs text-gray-400 font-semibold">Select Correspondence Intent:</label>
-            <select
-              className="bg-gray-900 border border-gray-700 text-sm rounded p-2 text-gray-200"
-              value={draftingPrompt}
-              onChange={(e) => setDraftingPrompt(e.target.value)}
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              className="flex-1 bg-white border border-slate-300 rounded-lg p-3 text-sm text-slate-900 focus:border-sky-600 outline-none"
+              placeholder="Ask AI e.g. 'Draft an urgent email to H&M requesting a 10-day LC expiry extension for PO 7844501'..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+            />
+            <button
+              className="primary"
+              onClick={() => {
+                if (!prompt) return notify("Please type an AI instruction.");
+                handleDraftEmail("amendment");
+                notify("AI generated custom email draft.");
+              }}
             >
-              <option value="Request LC expiry amendment from H&M buyer">
-                Request LC Expiry Amendment (H&M Buyer)
-              </option>
-              <option value="Urgent Shipping Line Container Demurrage Waiver">
-                Urgent Container Demurrage Waiver (Maersk)
-              </option>
-              <option value="Bank Negotiation Cover Schedule Cover Letter">
-                Bank Export Negotiation Cover Schedule Letter
-              </option>
-            </select>
-
-            <button className="primary" onClick={generateEmailDraft}>
-              ⚡ Generate AI Email Draft
+              ⚡ Generate Draft
             </button>
-
-            {draftResult && (
-              <div className="mt-3">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-gray-400 font-semibold">AI GENERATED DRAFT:</span>
-                  <button
-                    className="btn-sm"
-                    onClick={() => {
-                      navigator.clipboard?.writeText(draftResult);
-                      notify("Email draft copied to clipboard!");
-                    }}
-                  >
-                    📋 Copy Text
-                  </button>
-                </div>
-                <textarea
-                  className="w-full h-56 bg-gray-950 border border-gray-800 text-xs font-mono text-gray-200 p-3 rounded leading-relaxed"
-                  value={draftResult}
-                  readOnly
-                />
-              </div>
-            )}
           </div>
+
+          {draftResult && (
+            <div className="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs leading-relaxed whitespace-pre-wrap relative shadow-inner">
+              <button
+                className="absolute top-3 right-3 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-xs px-3 py-1 rounded text-sky-400 font-semibold"
+                onClick={() => {
+                  navigator.clipboard?.writeText(draftResult);
+                  notify("Email text copied to clipboard!");
+                }}
+              >
+                📋 Copy Draft
+              </button>
+              {draftResult}
+            </div>
+          )}
         </div>
       </div>
     </div>
