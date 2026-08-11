@@ -26,14 +26,22 @@ import GroupLcView from "./components/GroupLcView";
 import EtdEtaTracker from "./components/EtdEtaTracker";
 import PoTrackerView from "./components/PoTrackerView";
 
+// 45-Point Complete Enterprise Modules
+import AdvancePayView from "./components/AdvancePayView";
+import ExpensesClaimsView from "./components/ExpensesClaimsView";
+import WorkflowTasksView from "./components/WorkflowTasksView";
+import AiAssistantView from "./components/AiAssistantView";
+
 const pageMeta: Record<PageKey, { eyebrow: string; title: string; desc: string; action: string }> = {
   dashboard: { eyebrow: "COMMERCIAL CONTROL TOWER", title: "Good morning, Mahin", desc: "Here’s what needs your attention across imports, exports, and banking today.", action: "+ New transaction" },
   orders: { eyebrow: "ORDER HANDOVER", title: "Commercial order intake", desc: "Review merchandising handovers and confirm commercial readiness.", action: "+ Add handover" },
   potracker: { eyebrow: "PO TRANSITION DESK", title: "PO-Based Commercial Transition Tracker", desc: "Track Purchase Orders across 8 commercial stages from Merchandising Handover to Bank Realization.", action: "+ Intake New PO" },
   calculators: { eyebrow: "TRADE FINANCE TOOLS", title: "Garments Commercial Calculators", desc: "Calculate B2B entitlements, BGMEA UD raw material wastage, and bank presentation deadlines.", action: "+ New calculation" },
+  aiassistant: { eyebrow: "INTELLIGENT COMMERCIAL AI", title: "AI Document Intelligence & Decision Assistant", desc: "Automate SWIFT/LC discrepancy detection, predict vessel/customs delay risks, and draft buyer/bank emails.", action: "Run AI Scan" },
   masterlc: { eyebrow: "EXPORT FINANCE", title: "Master LC & sales contracts", desc: "Track buyer instruments, amendments, utilization and expiry exposure.", action: "+ New Master LC" },
   backtoback: { eyebrow: "IMPORT FINANCE", title: "Back-to-Back LC register", desc: "Manage supplier LCs against export entitlement and margin limits.", action: "+ Open BTB LC" },
   pimanagement: { eyebrow: "PROFORMA INVOICES", title: "PI Management Desk", desc: "Proforma Invoice entry, itemized fabric/yarn pricing, HS codes and LC linkage.", action: "+ New PI Record" },
+  advancepay: { eyebrow: "OUTWARD REMITTANCE & LIEN LIMITS", title: "TT Remittance & Credit Facilities Desk", desc: "Manage supplier advance payments, SWIFT MT103 advice, and bank credit facilities (B2B, LTR, PAD).", action: "+ New TT Request" },
   imports: { eyebrow: "INBOUND LOGISTICS", title: "Import shipment tracker", desc: "Follow materials from supplier dispatch through factory delivery.", action: "+ Import shipment" },
   importcosting: { eyebrow: "IMPORT COSTING", title: "Import Landed Cost & Settlement", desc: "Calculate landed cost (FOB + Freight + Duty + Demurrage) and supplier payment maturity.", action: "+ New Cost Sheet" },
   customs: { eyebrow: "CUSTOMS & BOND", title: "Bond and customs desk", desc: "Monitor bills of entry, BGMEA UD/UP, bond balance and clearances.", action: "+ Apply for UD" },
@@ -44,6 +52,8 @@ const pageMeta: Record<PageKey, { eyebrow: string; title: string; desc: string; 
   insurance: { eyebrow: "RISK PROTECTION", title: "Marine & Transport Insurance", desc: "Manage cover notes, insurance policy numbers, marine premium rates, and open cover policies.", action: "+ Issue Cover Note" },
   banking: { eyebrow: "TREASURY", title: "Banking & export proceeds", desc: "Track document negotiation, discrepancies, maturity and realization.", action: "+ Bank submission" },
   incentive: { eyebrow: "POST-EXPORT", title: "Cash incentive claims", desc: "Manage claim preparation, audit, certificates and disbursement.", action: "+ New claim" },
+  expenses: { eyebrow: "COMMERCIAL EXPENSES & CLAIMS", title: "Freight, C&F, Demurrage & Dispute Claims", desc: "Track shipping line freight, port demurrage, C&F agency fees, and buyer short-payment claims.", action: "+ New Expense Voucher" },
+  tasks: { eyebrow: "WORKFLOW COMMAND & SLA", title: "Maker-Checker Approvals & Exception SLA Desk", desc: "Review pending maker-checker tasks, exception resolution SLA, and full transaction audit logs.", action: "+ Create Task" },
   grouplc: { eyebrow: "GROUP TRADE FINANCE", title: "Group LC Pooling & Unit Allocation", desc: "Holding company LC pooling and inter-factory allocation across manufacturing units.", action: "+ Register Group Pool" },
   compliance: { eyebrow: "RISK CONTROL", title: "Compliance command center", desc: "Resolve expiry, discrepancy, regulatory and document exceptions.", action: "+ Create task" },
   reports: { eyebrow: "DECISION SUPPORT", title: "Commercial reports", desc: "Analyze exposure, buyer-wise trends, bank-wise credit facilities, and document status.", action: "Export report" },
@@ -197,12 +207,16 @@ export default function Home() {
             <PoTrackerView notify={notify} setModal={setModal} />
           ) : page === "calculators" ? (
             <TradeCalculators notify={notify} />
+          ) : page === "aiassistant" ? (
+            <AiAssistantView notify={notify} />
           ) : page === "masterlc" ? (
             <MasterLCView notify={notify} setModal={setModal} />
           ) : page === "backtoback" ? (
             <BackToBackLCView notify={notify} setModal={setModal} />
           ) : page === "pimanagement" ? (
             <PiManagementView notify={notify} setModal={setModal} />
+          ) : page === "advancepay" ? (
+            <AdvancePayView notify={notify} setModal={setModal} />
           ) : page === "importcosting" ? (
             <ImportCostingView notify={notify} setModal={setModal} />
           ) : page === "customs" ? (
@@ -217,6 +231,10 @@ export default function Home() {
             <BankingTreasuryView notify={notify} setModal={setModal} />
           ) : page === "incentive" ? (
             <CashIncentiveView notify={notify} setModal={setModal} />
+          ) : page === "expenses" ? (
+            <ExpensesClaimsView notify={notify} setModal={setModal} />
+          ) : page === "tasks" ? (
+            <WorkflowTasksView notify={notify} setModal={setModal} />
           ) : page === "grouplc" ? (
             <GroupLcView notify={notify} setModal={setModal} />
           ) : page === "reports" ? (

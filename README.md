@@ -78,7 +78,24 @@ Interactive decision-support tools built into the ERP:
 2. **BGMEA UD Raw Material Wastage Calculator**: Computes garment weight (GSM, chest, length), approved BGMEA wastage %, total fabric (kg), and required yarn (kg).
 3. **LC Expiry & Presentation Deadline Validator**: Validates whether shipment dates and presentation days fit within Master LC expiry dates.
 
-### 15. 🗂️ Commercial Master Reference Data (`MastersView`)
+### 15. 💳 TT Remittances & Bank Credit Facilities (`AdvancePayView`)
+- Manage Telegraphic Transfer (TT) advance supplier remittances and SWIFT MT103 advice tracking.
+- Lien Bank credit facility dashboard tracking sanctioned vs. utilized limits across Master LCs, B2B LCs, LTR/PAD loans, and Negotiation limits.
+
+### 16. 💵 Commercial Expenses & Dispute Claims (`ExpensesClaimsView`)
+- Track shipping line ocean freight, C&F agency fees, port demurrage charges, and customs duties.
+- Manage buyer short-payment disputes, carrier damage claims, debit/credit notes, and settlement workflows.
+
+### 17. 📋 Workflow Command & Exception SLA (`WorkflowTasksView`)
+- Configurable maker-checker-approver approval queues with SLA deadline escalation.
+- Exception management for late LCs, document presentation discrepancies, and vessel rollover SLA tracking with full audit trail logs.
+
+### 18. ⚡ AI Document Intelligence & Decision Assistant (`AiAssistantView`)
+- Optical scan discrepancy checking comparing Master LCs, PIs, Commercial Invoices, and Bills of Lading.
+- Predictive delay engine forecasting shipment departure delays, customs hold risks, and demurrage exposure.
+- Decision assistance & automated AI email generator for buyer LC amendments, carrier demurrage waivers, and bank presentation letters.
+
+### 19. 🗂️ Commercial Master Reference Data (`MastersView`)
 - Centralized reference directories for Banks, Buyers, Suppliers, Seaports/Airports, HS Codes, and Freight Forwarders.
 
 ---
@@ -96,7 +113,7 @@ Interactive decision-support tools built into the ERP:
 
 ## Database Schema Overview (`db/schema.ts`)
 
-The database is built on Drizzle ORM and manages 11 core SQLite tables:
+The database is built on Drizzle ORM and manages 15 core SQLite tables:
 
 | Table Name | Description |
 | :--- | :--- |
@@ -111,6 +128,10 @@ The database is built on Drizzle ORM and manages 11 core SQLite tables:
 | `banking_proceeds` | Export bill negotiation, realized amounts (USD), ERQ retention, bank fees, and net BDT credit. |
 | `cash_incentive_claims` | Government cash incentive claims, CA audit firm certificates, and Bangladesh Bank sanction status. |
 | `commercial_masters` | Master reference data for banks, buyers, suppliers, ports, HS codes, and forwarders. |
+| `advance_payments` | TT remittances, beneficiary banks, SWIFT MT103 advice, and exchange rate debit tracking. |
+| `bank_credit_facilities` | Lien bank credit facilities (B2B limits, PAD, LTR, LIM, negotiation headroom, expiries). |
+| `commercial_expenses` | Ocean freight, C&F agency fees, port demurrage, customs duty, and dispute claim tracking. |
+| `workflow_tasks` | Maker-checker tasks, exception resolution SLA, severity levels, and audit trail logs. |
 
 ---
 

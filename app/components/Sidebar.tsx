@@ -17,6 +17,7 @@ const navGroups: { label: string; items: { key: PageKey; label: string; icon: st
       { key: "potracker", label: "PO Lifecycle Tracker", icon: "🎯", badge: "HOT" },
       { key: "orders", label: "Order Handover", icon: "▦", badge: "6" },
       { key: "calculators", label: "Trade Calculators", icon: "🧮", badge: "NEW" },
+      { key: "aiassistant", label: "AI Intelligence & Assistant", icon: "⚡", badge: "AI" },
     ],
   },
   {
@@ -25,6 +26,7 @@ const navGroups: { label: string; items: { key: PageKey; label: string; icon: st
       { key: "masterlc", label: "Master LC / Contract", icon: "▤", badge: "12" },
       { key: "backtoback", label: "Back-to-Back LC", icon: "⇄", badge: "8" },
       { key: "pimanagement", label: "PI Management", icon: "📑", badge: "NEW" },
+      { key: "advancepay", label: "TT & Credit Facilities", icon: "💳", badge: "NEW" },
       { key: "imports", label: "Import Shipments", icon: "↓" },
       { key: "importcosting", label: "Import Landed Costing", icon: "💰", badge: "NEW" },
       { key: "customs", label: "Customs & Bond (UD)", icon: "♜", badge: "3" },
@@ -45,6 +47,8 @@ const navGroups: { label: string; items: { key: PageKey; label: string; icon: st
     items: [
       { key: "banking", label: "Bank & Proceeds Desk", icon: "▣" },
       { key: "incentive", label: "Cash Incentive Claim", icon: "◎" },
+      { key: "expenses", label: "Expenses & Claims", icon: "💵", badge: "NEW" },
+      { key: "tasks", label: "Workflow & SLA Tasks", icon: "📋", badge: "4" },
       { key: "grouplc", label: "Group LC Pooling", icon: "🏢", badge: "NEW" },
       { key: "compliance", label: "Compliance & Alerts", icon: "△", badge: "7" },
       { key: "reports", label: "Reports & Analytics", icon: "⌁" },

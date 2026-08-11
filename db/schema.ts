@@ -192,3 +192,64 @@ export const commercialMasters = sqliteTable("commercial_masters", {
   status: text("status").notNull().default("Active"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+// 12. TT & Advance Remittance Payments
+export const advancePayments = sqliteTable("advance_payments", {
+  id: text("id").primaryKey(),
+  refNo: text("ref_no").notNull(),
+  supplier: text("supplier").notNull(),
+  piNumber: text("pi_number").notNull(),
+  beneficiaryBank: text("beneficiary_bank").notNull(),
+  swiftCode: text("swift_code").notNull(),
+  remittanceAmountUsd: real("remittance_amount_usd").notNull(),
+  paymentPercent: real("payment_percent").notNull(),
+  exchangeRateBdt: real("exchange_rate_bdt").notNull(),
+  totalBdtDebited: real("total_bdt_debited").notNull(),
+  paymentDate: text("payment_date").notNull(),
+  status: text("status").notNull().default("SWIFT Executed"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+
+// 13. Lien Bank & Credit Facilities
+export const bankCreditFacilities = sqliteTable("bank_credit_facilities", {
+  id: text("id").primaryKey(),
+  bankName: text("bank_name").notNull(),
+  facilityType: text("facility_type").notNull(), // Master LC, B2B LC, LTR/PAD, Negotiation Limit
+  sanctionedLimitUsd: real("sanctioned_limit_usd").notNull(),
+  utilizedLimitUsd: real("utilized_limit_usd").notNull().default(0),
+  availableLimitUsd: real("available_limit_usd").notNull(),
+  marginPercent: real("margin_percent").notNull().default(0),
+  expiryDate: text("expiry_date").notNull(),
+  status: text("status").notNull().default("Active"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+
+// 14. Freight, C&F & Dispute Claims
+export const commercialExpenses = sqliteTable("commercial_expenses", {
+  id: text("id").primaryKey(),
+  voucherNo: text("voucher_no").notNull(),
+  expenseCategory: text("expense_category").notNull(), // Freight, C&F, Customs Duty, Demurrage, Survey Claim
+  vendorParty: text("vendor_party").notNull(),
+  linkedRefNo: text("linked_ref_no").notNull(),
+  amountUsd: real("amount_usd").notNull().default(0),
+  amountBdt: real("amount_bdt").notNull(),
+  approvalStatus: text("approval_status").notNull().default("Approved"),
+  paymentStatus: text("payment_status").notNull().default("Pending Settlement"),
+  dueDate: text("due_date").notNull(),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+
+// 15. Workflow Tasks, Exceptions & SLA Audit Logs
+export const workflowTasks = sqliteTable("workflow_tasks", {
+  id: text("id").primaryKey(),
+  taskTitle: text("task_title").notNull(),
+  category: text("category").notNull(), // LC Exception, Maker-Checker Approval, Discrepancy Waiver, Vessel Rollover
+  severity: text("severity").notNull(), // Critical, High, Medium, Low
+  assignedOfficer: text("assigned_officer").notNull(),
+  linkedEntityRef: text("linked_entity_ref").notNull(),
+  slaDeadline: text("sla_deadline").notNull(),
+  status: text("status").notNull().default("In Review"),
+  auditLogNotes: text("audit_log_notes").notNull().default(""),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+

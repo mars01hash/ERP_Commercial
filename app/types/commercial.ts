@@ -2,7 +2,8 @@ export type PageKey =
   | "dashboard" | "orders" | "masterlc" | "backtoback" | "imports" | "customs"
   | "exports" | "shipping" | "documents" | "banking" | "incentive" | "compliance"
   | "reports" | "masters" | "settings" | "calculators"
-  | "pimanagement" | "insurance" | "importcosting" | "grouplc" | "etdeta" | "potracker";
+  | "pimanagement" | "insurance" | "importcosting" | "grouplc" | "etdeta" | "potracker"
+  | "advancepay" | "expenses" | "tasks" | "aiassistant";
 
 export type RecordStatus =
   | "Active" | "Draft" | "Pending review" | "Ready" | "Missing docs" | "Amendment due"
@@ -264,3 +265,67 @@ export interface CommercialMaster {
   details: string;
   status: "Active" | "Inactive";
 }
+
+export interface AdvancePaymentItem {
+  id: string;
+  refNo: string;
+  supplier: string;
+  piNumber: string;
+  beneficiaryBank: string;
+  swiftCode: string;
+  remittanceAmountUsd: number;
+  paymentPercent: number;
+  exchangeRateBdt: number;
+  totalBdtDebited: number;
+  paymentDate: string;
+  status: "SWIFT Executed" | "Pending Remittance" | "Returned";
+}
+
+export interface CreditFacilityItem {
+  id: string;
+  bankName: string;
+  facilityType: "Master LC" | "Back-to-Back LC" | "LTR / PAD" | "Negotiation Limit";
+  sanctionedLimitUsd: number;
+  utilizedLimitUsd: number;
+  availableLimitUsd: number;
+  marginPercent: number;
+  expiryDate: string;
+  status: "Active" | "Near Expiry" | "Exhausted";
+}
+
+export interface CommercialExpenseItem {
+  id: string;
+  voucherNo: string;
+  expenseCategory: "Ocean Freight" | "C&F Agency Fees" | "Customs Duty" | "Port Demurrage" | "Insurance Premium" | "Dispute Claim";
+  vendorParty: string;
+  linkedRefNo: string;
+  amountUsd: number;
+  amountBdt: number;
+  approvalStatus: "Approved" | "Pending Review" | "Under Dispute";
+  paymentStatus: "Paid" | "Pending Settlement" | "Overdue";
+  dueDate: string;
+}
+
+export interface WorkflowTaskItem {
+  id: string;
+  taskTitle: string;
+  category: "LC Exception" | "Maker-Checker Approval" | "Discrepancy Waiver" | "Vessel Rollover" | "Audit Warning";
+  severity: "Critical" | "High" | "Medium" | "Low";
+  assignedOfficer: string;
+  linkedEntityRef: string;
+  slaDeadline: string;
+  status: "Open" | "In Review" | "Resolved" | "Escalated";
+  auditLogNotes: string;
+}
+
+export interface AiAnalysisItem {
+  id: string;
+  targetDocument: string;
+  docType: "Master LC" | "Proforma Invoice" | "Bill of Lading" | "Customs UD";
+  aiConfidenceScore: number;
+  detectedMismatchesCount: number;
+  riskSummary: string;
+  aiRecommendations: string[];
+  analyzedTimestamp: string;
+}
+
