@@ -62,7 +62,7 @@ const samplePIs: ProformaInvoice[] = [
 ];
 
 export default function PiManagementView({ notify, setModal }: PiManagementViewProps) {
-  const [pis, setPis] = useState<ProformaInvoice[]>(samplePIs);
+  const [pis] = useState<ProformaInvoice[]>(samplePIs);
   const [filterType, setFilterType] = useState<string>("All");
 
   const filtered = pis.filter((p) => filterType === "All" || p.piType === filterType);

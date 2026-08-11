@@ -6,7 +6,7 @@ interface TradeModalsProps {
   modal: boolean;
   page: PageKey;
   form: { title: string; party: string; ref: string; amount: string; date: string };
-  setForm: (f: any) => void;
+  setForm: (f: TradeModalsProps["form"]) => void;
   onClose: () => void;
   onAddRecord: () => void;
   notify: (msg: string) => void;

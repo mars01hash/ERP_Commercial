@@ -54,7 +54,7 @@ const samplePolicies: InsurancePolicy[] = [
 ];
 
 export default function InsuranceView({ notify, setModal }: InsuranceViewProps) {
-  const [policies, setPolicies] = useState<InsurancePolicy[]>(samplePolicies);
+  const [policies] = useState<InsurancePolicy[]>(samplePolicies);
 
   return (
     <div className="insurance-module">

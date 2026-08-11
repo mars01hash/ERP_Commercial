@@ -23,7 +23,7 @@ const initialMasters: CommercialMaster[] = [
 ];
 
 export default function MastersView({ notify }: MastersViewProps) {
-  const [masters, setMasters] = useState<CommercialMaster[]>(initialMasters);
+  const [masters] = useState<CommercialMaster[]>(initialMasters);
   const [selectedCat, setSelectedCat] = useState<string>("All");
 
   const filtered = masters.filter((m) => selectedCat === "All" || m.category === selectedCat);

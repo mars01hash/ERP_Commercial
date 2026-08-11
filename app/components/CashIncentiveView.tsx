@@ -51,7 +51,7 @@ const sampleClaims: CashIncentiveClaimItem[] = [
 ];
 
 export default function CashIncentiveView({ notify, setModal }: CashIncentiveViewProps) {
-  const [claims, setClaims] = useState<CashIncentiveClaimItem[]>(sampleClaims);
+  const [claims] = useState<CashIncentiveClaimItem[]>(sampleClaims);
 
   return (
     <div className="cash-incentive-module">

@@ -8,7 +8,7 @@ interface BankingTreasuryViewProps {
   setModal: (open: boolean) => void;
 }
 
-const initialProceeds: BankingTreasuryViewProps extends any ? BankingProceedsItem[] : never = [
+const initialProceeds: BankingProceedsItem[] = [
   {
     id: "NEG-2026-0078",
     billNo: "FDBC-SCB-8834",
@@ -60,7 +60,7 @@ const initialProceeds: BankingTreasuryViewProps extends any ? BankingProceedsIte
 ];
 
 export default function BankingTreasuryView({ notify, setModal }: BankingTreasuryViewProps) {
-  const [items, setItems] = useState<BankingProceedsItem[]>(initialProceeds);
+  const [items] = useState<BankingProceedsItem[]>(initialProceeds);
 
   return (
     <div className="banking-module">

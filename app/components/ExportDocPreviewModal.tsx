@@ -181,7 +181,7 @@ export default function ExportDocPreviewModal({ docSet, onClose, notify }: Expor
           <div className="paper-foot">
             <div>
               <strong>BENEFICIARY DECLARATION:</strong>
-              <p>We certify that the goods specified above are of Bangladesh origin, manufactured strictly in accordance with Buyer's purchase order and Master LC terms.</p>
+              <p>We certify that the goods specified above are of Bangladesh origin, manufactured strictly in accordance with Buyer&apos;s purchase order and Master LC terms.</p>
             </div>
             <div className="sig-block">
               <div className="sig-line"></div>

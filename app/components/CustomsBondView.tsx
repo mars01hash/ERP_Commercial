@@ -57,7 +57,7 @@ const initialUDs: CustomsUDItem[] = [
 ];
 
 export default function CustomsBondView({ notify, setModal }: CustomsBondViewProps) {
-  const [uds, setUds] = useState<CustomsUDItem[]>(initialUDs);
+  const [uds] = useState<CustomsUDItem[]>(initialUDs);
   const [activeTab, setActiveTab] = useState<"ud" | "be" | "bond">("ud");
 
   return (

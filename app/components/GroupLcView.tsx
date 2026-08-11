@@ -43,7 +43,7 @@ const initialGroupPools: GroupLCPool[] = [
 ];
 
 export default function GroupLcView({ notify, setModal }: GroupLcViewProps) {
-  const [pools, setPools] = useState<GroupLCPool[]>(initialGroupPools);
+  const [pools] = useState<GroupLCPool[]>(initialGroupPools);
 
   return (
     <div className="group-lc-module">

@@ -114,7 +114,7 @@ export default function Home() {
   const [form, setForm] = useState({ title: "", party: "", ref: "", amount: "", date: "" });
 
   const meta = pageMeta[page];
-  const rows = records[page] || [];
+  const rows = useMemo(() => records[page] || [], [records, page]);
   const statuses = useMemo(() => ["All status", ...Array.from(new Set(rows.map((r) => r.status)))], [rows]);
   const filtered = rows.filter(
     (r) =>

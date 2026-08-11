@@ -73,7 +73,7 @@ const sampleDocSets: ExportDocSet[] = [
 ];
 
 export default function ExportDocsView({ notify, setModal, openPreviewModal }: ExportDocsViewProps) {
-  const [docSets, setDocSets] = useState<ExportDocSet[]>(sampleDocSets);
+  const [docSets] = useState<ExportDocSet[]>(sampleDocSets);
 
   return (
     <div className="export-docs-module">

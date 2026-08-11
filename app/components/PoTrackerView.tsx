@@ -119,7 +119,7 @@ export default function PoTrackerView({ notify, setModal }: PoTrackerViewProps) 
     }
 
     const nextIndex = selectedPo.currentStageIndex + 1;
-    const nextStageName = STAGES[nextIndex].replace(/^\d+\.\s*/, "") as any;
+    const nextStageName = STAGES[nextIndex].replace(/^\d+\.\s*/, "") as POTransitionRecord["currentStageName"];
 
     const updatedPo = {
       ...selectedPo,

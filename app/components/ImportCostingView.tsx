@@ -60,7 +60,7 @@ const initialLandedCosts: ImportLandedCost[] = [
 ];
 
 export default function ImportCostingView({ notify, setModal }: ImportCostingViewProps) {
-  const [costs, setCosts] = useState<ImportLandedCost[]>(initialLandedCosts);
+  const [costs] = useState<ImportLandedCost[]>(initialLandedCosts);
 
   return (
     <div className="import-costing-module">

@@ -75,7 +75,7 @@ const initialB2BLCs: BackToBackLCItem[] = [
 ];
 
 export default function BackToBackLCView({ notify, setModal }: BackToBackLCViewProps) {
-  const [b2bList, setB2bList] = useState<BackToBackLCItem[]>(initialB2BLCs);
+  const [b2bList] = useState<BackToBackLCItem[]>(initialB2BLCs);
   const [filterCat, setFilterCat] = useState<string>("All");
 
   const filteredList = b2bList.filter((item) => filterCat === "All" || item.itemCategory === filterCat);

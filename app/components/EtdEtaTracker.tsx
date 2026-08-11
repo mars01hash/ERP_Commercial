@@ -57,7 +57,7 @@ const initialMilestones: ETDMilestone[] = [
 ];
 
 export default function EtdEtaTracker({ notify, setModal }: EtdEtaTrackerProps) {
-  const [milestones, setMilestones] = useState<ETDMilestone[]>(initialMilestones);
+  const [milestones] = useState<ETDMilestone[]>(initialMilestones);
 
   return (
     <div className="etd-eta-module">
